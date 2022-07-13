@@ -2,11 +2,11 @@ package com.knubisoft.base.arrays;
 
 import java.util.HashSet;
 
-public class ArraysTasksImpl implements ArraysTasks{
+public class ArraysTasksImpl implements ArraysTasks {
     @Override
     public int[] reverse(int[] array) {
         int tmp;
-        for (int i = (array.length-1), j = 0; i > (array.length/2)-1; i--, j++) {
+        for (int i = (array.length - 1), j = 0; i > (array.length / 2) - 1; i--, j++) {
             tmp = array[i];
             array[i] = array[j];
             array[j] = tmp;
@@ -16,12 +16,43 @@ public class ArraysTasksImpl implements ArraysTasks{
 
     @Override
     public int[] mergeArrays(int[] array1, int[] array2) {
-        return null;
+        int[] array = new int[array1.length + array2.length];
+        for (int i = 0; i < array1.length; i++) {
+            array[i] = array1[i];
+        }
+        for (int i = array1.length, j = 0; i < array.length; i++, j++) {
+            array[i] = array2[j];
+        }
+        return array;
     }
 
     @Override
     public int[] findMax3InArray(int[] array) {
-        return null;
+        if(array.length == 0){
+            return array;
+        }
+        if(array.length < 3){
+            return array;
+        }
+        int[] res = new int[3];
+        int max = Integer.MIN_VALUE;
+        int count = 0;
+        while (count != 3) {
+            for (int i = 0, j = count; i < array.length; i++) {
+                if (array[i] > max) {
+                    if (j != 0 && res[j - 1] > array[i]) {
+                        max = array[i];
+                    }
+                    if(j == 0){
+                        max = array[i];
+                    }
+                }
+                res[j] = max;
+            }
+            max = Integer.MIN_VALUE;
+            count++;
+        }
+        return res;
     }
 
     @Override
@@ -31,7 +62,16 @@ public class ArraysTasksImpl implements ArraysTasks{
 
     @Override
     public int sumOfAllUniqueElements(int[] array) {
-        return -1;
+        int res = 0;
+        HashSet<Integer> count = new HashSet<>();
+        for (int num : array) {
+            if (count.contains(num)) {
+            } else {
+                count.add(num);
+                res += num;
+            }
+        }
+        return res;
     }
 
     @Override
