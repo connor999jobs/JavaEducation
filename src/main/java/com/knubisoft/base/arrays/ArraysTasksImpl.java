@@ -28,10 +28,10 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     @Override
     public int[] findMax3InArray(int[] array) {
-        if(array.length == 0){
+        if (array.length == 0) {
             return array;
         }
-        if(array.length < 3){
+        if (array.length < 3) {
             return array;
         }
         int[] res = new int[3];
@@ -43,7 +43,7 @@ public class ArraysTasksImpl implements ArraysTasks {
                     if (j != 0 && res[j - 1] > array[i]) {
                         max = array[i];
                     }
-                    if(j == 0){
+                    if (j == 0) {
                         max = array[i];
                     }
                 }
@@ -57,7 +57,19 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     @Override
     public int findLongestIncreasingContinuesSubsequence(int[] array) {
-        return -1;
+        if (array.length == 0) {
+            return 0;
+        }
+        int len = 1, max = 0;
+        for (int i = 1; i < array.length; i++) {
+            if (array[i - 1] < array[i])
+                len++;
+            else {
+                max = Math.max(len, max);
+                len = 1;
+            }
+        }
+        return Math.max(max, len);
     }
 
     @Override
@@ -93,17 +105,60 @@ public class ArraysTasksImpl implements ArraysTasks {
 
     @Override
     public int findFinalValue(int[] nums, int original) {
-        return -1;
+        boolean flag = true;
+        while (flag) {
+            flag = false;
+            for (int num : nums) {
+                if (num == original) {
+                    original *= 2;
+                    flag = true;
+                }
+            }
+        }
+        return original;
     }
 
     @Override
     public String longestCommonPrefix(String[] words) {
+        String res = "";
+        for (int i = 0; i < words.length; i++) {
+            char[] word = words[i].toCharArray();
+            for (int j = 0; j < word.length; j++) {
+                res += word[j];
+
+            }
+        }
         return null;
     }
 
     @Override
     public int missingNumber(int[] array) {
-        return -1;
+        boolean needIteration = true;
+        while (needIteration) {
+            needIteration = false;
+            for (int i = 1; i < array.length; i++) {
+                if (array[i] < array[i - 1]) {
+                    swap(array, i, i - 1);
+                    needIteration = true;
+                }
+            }
+        }
+        for (int i = 0; i < array.length - 1; i++) {
+            if (array[0] != 0) {
+                return 0;
+            }
+            if (array[i + 1] != array[i] + 1) {
+                return array[i] + 1;
+            }
+        }
+        return array[array.length - 1] + 1;
+    }
+
+    private static void swap(int[] array, int ind1, int ind2) {
+        int tmp = array[ind1];
+        array[ind1] = array[ind2];
+        array[ind2] = tmp;
+
     }
 
     @Override
