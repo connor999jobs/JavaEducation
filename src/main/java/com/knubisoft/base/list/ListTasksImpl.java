@@ -7,7 +7,7 @@ import java.util.List;
 public class ListTasksImpl implements ListTasks {
     @Override
     public List<String> addElements(String... elements) {
-        return null;
+        return new ArrayList<>(List.of(elements));
     }
 
     @Override
@@ -27,7 +27,10 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public int getListSize(List<String> list) {
-        return -1;
+        if (list == null){
+            return 0;
+        }
+        return list.size();
     }
 
     @Override

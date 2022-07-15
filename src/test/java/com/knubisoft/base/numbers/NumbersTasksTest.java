@@ -3,12 +3,18 @@ package com.knubisoft.base.numbers;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class NumbersTasksTest {
 
     NumbersTasks numbersTasks = new NumbersTasksImpl();
+
+    @Test
+    void swapTwoNumbersWithoutUsingTemporaryVariable(){
+        assertEquals(Arrays.toString(new int[]{5,2}), numbersTasks.swapTwoNumbersWithoutUsingTemporaryVariable(2,5));
+    }
 
     @Test
     void isUglyNumber() {

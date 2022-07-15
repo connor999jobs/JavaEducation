@@ -4,12 +4,12 @@ public class BoolTasksImpl implements BoolTasks {
 
     @Override
     public Boolean isTrueAutobox(boolean value) {
-        return null;
+        return value;
     }
 
     @Override
     public Boolean isFalseAutobox(boolean value) {
-        return null;
+        return value;
     }
 
     @Override
@@ -44,11 +44,17 @@ public class BoolTasksImpl implements BoolTasks {
 
     @Override
     public boolean isSameSizeArray(Object[] firstArray, Object... secondArray) {
-        return false;
+        if (firstArray == null || secondArray == null) {
+            return false;
+        }
+        return firstArray.length == secondArray.length;
     }
 
     @Override
     public boolean isSameCharactersCount(String username, String name, int maxLength) {
-        return false;
+        if (username == null || name == null || maxLength == 0) {
+            return false;
+        }
+        return (username.length() <= maxLength) && (name.length() <= maxLength) && (username.length() == name.length());
     }
 }

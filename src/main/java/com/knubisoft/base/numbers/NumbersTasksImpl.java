@@ -1,17 +1,33 @@
 package com.knubisoft.base.numbers;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
-    public void swapTwoNumbersWithoutUsingTemporaryVariable(int firstNumber, int secondNumber) {
-
+    public String swapTwoNumbersWithoutUsingTemporaryVariable(int firstNumber, int secondNumber) {
+        firstNumber = firstNumber + secondNumber - (secondNumber = firstNumber);
+        return Arrays.toString(new int[]{firstNumber, secondNumber});
     }
 
     @Override
     public boolean isUglyInt(int number) {
-        return false;
+        if (number < 0) {
+            return false;
+        }
+        while(number != 1) {
+            if (number % 2 == 0) {
+                number = number / 2;
+            } else if (number % 3 == 0) {
+                number = number / 3;
+            } else if (number % 5 == 0) {
+                number = number / 5;
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
