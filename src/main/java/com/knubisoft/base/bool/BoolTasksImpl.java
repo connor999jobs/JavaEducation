@@ -14,17 +14,29 @@ public class BoolTasksImpl implements BoolTasks {
 
     @Override
     public boolean isTrueUnbox(Boolean value) {
+        boolean b = value;
+        if (b) return b;
         return false;
     }
 
     @Override
     public Boolean isFalseUnbox(boolean value) {
-        return null;
+        boolean b = value;
+        if (!b) return b;
+        return true;
     }
 
     @Override
     public boolean andFunction(int digit, String string) {
-        return false;
+        if (string == null || string.contains(" ")) return false;
+        int s;
+        try {
+            s = Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        int res = s & digit;
+        return res == s;
     }
 
     @Override

@@ -11,8 +11,17 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public List<String> getElementsByIndexes(List<String> elements, int[] indexes) {
-        return null;
+    public List<String> getElementsByIndexes(List<String> elements, int[] indexes) throws IllegalArgumentException {
+        if (indexes == null) {
+            throw new IllegalArgumentException("Indexes cannot be null");
+        }
+        for (int index : indexes) {
+            if (index < 0 || index > elements.size()) {
+                throw new IllegalArgumentException("value cannot be less then zero or bigger then size of list");
+            }
+            elements.add(elements.size(), elements.get(index));
+        }
+        return elements;
     }
 
     @Override
@@ -27,7 +36,7 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public int getListSize(List<String> list) {
-        if (list == null){
+        if (list == null) {
             return 0;
         }
         return list.size();

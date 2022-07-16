@@ -36,7 +36,7 @@ public class ListTasksTest {
     }
 
     @Test
-    public void getElementsByIndexesSuccessful() {
+    public void getElementsByIndexesSuccessful() throws IllegalAccessException {
         List<String> actualFirst = instance
                 .getElementsByIndexes(new ArrayList<>(Arrays.asList("Alex", "Bob", "Alica")), new int[]{2, 3});
         assertEquals("Alex", actualFirst.get(0));

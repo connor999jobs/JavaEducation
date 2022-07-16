@@ -12,7 +12,7 @@ public interface ListTasks {
     /**
      * Get elements by indexes and return a new list.
      * */
-    List<String> getElementsByIndexes(List<String> elements, int[] indexes);
+    List<String> getElementsByIndexes(List<String> elements, int[] indexes) throws IllegalAccessException;
     /**
      * Add elements by indexes and return a new list.
      * */

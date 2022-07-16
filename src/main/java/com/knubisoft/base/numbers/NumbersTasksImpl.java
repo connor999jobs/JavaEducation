@@ -16,18 +16,17 @@ public class NumbersTasksImpl implements NumbersTasks {
         if (number < 0) {
             return false;
         }
-        while(number != 1) {
-            if (number % 2 == 0) {
-                number = number / 2;
-            } else if (number % 3 == 0) {
-                number = number / 3;
-            } else if (number % 5 == 0) {
-                number = number / 5;
-            } else {
-                return false;
+        int tmp;
+        do {
+            tmp = number;
+            for (int i : new int[]{2, 3, 5}) {
+                if (number % i == 0) {
+                    number = number / i;
+                    break;
+                }
             }
-        }
-        return true;
+        } while (tmp != number);
+        return number == 1;
     }
 
     @Override
@@ -58,22 +57,50 @@ public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
     public boolean isHarshadNumber(int number) {
-        return false;
+        if (number == 0) {
+            return false;
+        }
+        int tmp = number;
+        int i = 0;
+        while (number != 0) {
+            i += number % 10;
+            number /= 10;
+        }
+        return tmp % i == 0;
     }
 
     @Override
     public boolean isPrime(int number) {
-        return false;
+        for (int i = 2; i <= number / 2; i++) {
+            if (number % i == 0) return false;
+        }
+        return true;
     }
 
     @Override
     public boolean isArmstrongNumber(int number) {
-        return false;
+        String[] strArray = Integer.toString(number).split("");
+        int pow = strArray.length;
+
+        int result = 0;
+
+        for (String s : strArray) {
+            result += Math.pow(Integer.parseInt(s), pow);
+        }
+//        if (number == result) {
+//            System.out.println(number + " : is Armstrong number");
+//        }
+
+        return number == result;
     }
 
     @Override
     public BigInteger factorial(int number) {
-        return BigInteger.ZERO;
+        BigInteger fact = BigInteger.valueOf(1);
+        for (int i = 2; i <= number; i++) {
+            fact = fact.multiply(BigInteger.valueOf(i));
+        }
+        return fact;
     }
 
     @Override
@@ -108,6 +135,15 @@ public class NumbersTasksImpl implements NumbersTasks {
 
     @Override
     public boolean isAutomorphic(int number) {
-        return false;
+        long pow = (long) Math.pow(number, 2);
+        long tmp = number;
+        StringBuffer i = new StringBuffer();
+        while (number != 0) {
+            i.append(pow % 10);
+            number /= 10;
+            pow /= 10;
+        }
+        int num = Integer.parseInt(i.reverse().toString());
+        return tmp == num;
     }
 }
