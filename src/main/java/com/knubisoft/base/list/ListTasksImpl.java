@@ -1,8 +1,6 @@
 package com.knubisoft.base.list;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ListTasksImpl implements ListTasks {
     @Override
@@ -43,18 +41,57 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public List<Long> merge(List<Integer> first, List<Long> second, List<String> third) {
-        return null;
+    public List<Long> merge(List<Integer> first, List<Long> second, List<String> third) throws IllegalArgumentException, NullPointerException, RuntimeException {
+        if(first == null || second == null || third == null){
+            throw new RuntimeException();
+        }
+        List<Long> res = new ArrayList<>();
+        for (Integer integer : first) {
+            if(integer == null){
+                throw new NullPointerException();
+            }
+            res.add(Long.valueOf(integer));
+        }
+        res.addAll(second);
+        for (String s : third) {
+            if (s == null){
+                throw new NullPointerException();
+            }
+            res.add(Long.parseLong(s));
+        }
+        System.out.println(res);
+        return res;
     }
 
     @Override
     public int findMaxValue(List<Integer> first, List<Integer> second, List<Integer> third) {
-        return -1;
+        List<Integer> array = new ArrayList<>();
+        array.addAll(first);
+        array.addAll(second);
+        array.addAll(third);
+        int max = array.get(0);
+        for (Integer integer : array) {
+            if (integer > max) {
+                max = integer;
+            }
+        }
+        //return Collections.max(array);
+        return max;
     }
 
     @Override
     public int findMinValue(List<Integer> first, List<Integer> second, List<Integer> third) {
-        return -1;
+        List<Integer> array = new ArrayList<>();
+        array.addAll(first);
+        array.addAll(second);
+        array.addAll(third);
+        int min = array.get(0);
+        for (Integer integer : array) {
+            if (integer < min) {
+                min = integer;
+            }
+        }
+        return min;
     }
 
     @Override
@@ -83,8 +120,20 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public String getLastElement(LinkedList<String> list) {
-        return null;
+    public String getLastElement(LinkedList<String> list) throws NoSuchElementException {
+        if(list == null){
+            throw new NoSuchElementException();
+        }
+        if (list.isEmpty()){
+            return "";
+        }
+        if(list.getLast()==null){
+            throw new NoSuchElementException();
+        }
+        else {
+            return list.getLast();
+        }
+
     }
 
     @Override

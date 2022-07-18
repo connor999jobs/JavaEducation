@@ -2,9 +2,7 @@ package com.knubisoft.base.queue;
 
 import com.knubisoft.base.queue.car.Car;
 
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class QueueTasksImpl implements QueueTasks {
 
