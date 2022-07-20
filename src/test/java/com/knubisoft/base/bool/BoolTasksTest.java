@@ -82,6 +82,15 @@ public class BoolTasksTest {
     }
 
     @Test
+    public void andComplexFunction(){
+        assertTrue(instance.andComplexFunction(4, 4.0,5));
+        assertTrue(instance.andComplexFunction(4, 4.4,5));
+        assertTrue(instance.andComplexFunction(4, 4.2,5));
+        assertFalse(instance.andComplexFunction(4, 4.5,5));
+        assertFalse(instance.andComplexFunction(4, 4.7,5));
+    }
+
+    @Test
     public void isSameSizeArraySuccessful() {
         assertTrue(instance.isSameSizeArray(new Object[100], new Object[100]));
         assertTrue(instance.isSameSizeArray(new Object[30], new Object[30]));

@@ -23,13 +23,33 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public ArrayList<String> addElementsByIndexes(ArrayList<String> elements, int[] indexes) {
-        return null;
+    public ArrayList<String> addElementsByIndexes(ArrayList<String> elements, int[] indexes) throws IllegalArgumentException {
+        if (indexes == null || elements == null) {
+            throw new IllegalArgumentException();
+        }
+        for (int index : indexes) {
+            if (index < 0 || index > elements.size() + 1) {
+                throw new IllegalArgumentException();
+            }
+            elements.add(index, elements.get(index));
+            System.out.println(elements);
+        }
+        return elements;
     }
 
     @Override
     public LinkedList<String> setElementsByIndexes(LinkedList<String> elements, int[] indexes) {
-        return null;
+        if (indexes == null || elements == null) {
+            throw new IllegalArgumentException();
+        }
+        for (int index : indexes) {
+            if (index < 0 || index > elements.size() + 1) {
+                throw new IllegalArgumentException();
+            }
+            elements.set(index, elements.get(index));
+            System.out.println(elements);
+        }
+        return elements;
     }
 
     @Override
@@ -42,19 +62,19 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public List<Long> merge(List<Integer> first, List<Long> second, List<String> third) throws IllegalArgumentException, NullPointerException, RuntimeException {
-        if(first == null || second == null || third == null){
+        if (first == null || second == null || third == null) {
             throw new RuntimeException();
         }
         List<Long> res = new ArrayList<>();
         for (Integer integer : first) {
-            if(integer == null){
+            if (integer == null) {
                 throw new NullPointerException();
             }
             res.add(Long.valueOf(integer));
         }
         res.addAll(second);
         for (String s : third) {
-            if (s == null){
+            if (s == null) {
                 throw new NullPointerException();
             }
             res.add(Long.parseLong(s));
@@ -100,18 +120,44 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public List<String> removeNulls(List<String> list) {
-        return null;
+    public List<String> removeNulls(List<String> list) throws RuntimeException {
+        //list.stream().filter(s -> (s != null && s.length() > 0)).toList()
+        if (list == null) {
+            throw new RuntimeException();
+        }
+        List<String> s = new ArrayList<>();
+        for (String i : list) {
+            if (i != null && i.length() > 0) {
+                s.add(i);
+            }
+        }
+        return s;
     }
 
     @Override
-    public List<Integer> flatMapWithoutNulls(List<List<Integer>> list) {
-        return null;
+    public List<Integer> flatMapWithoutNulls(List<List<Integer>> list) throws NoSuchElementException {
+        if (list == null) {
+            throw new NoSuchElementException();
+        }
+        List<Integer> res = new ArrayList<>();
+        for (List<Integer> l : list) {
+            res.addAll(l.stream().filter(Objects::nonNull).toList());
+        }
+        return res;
     }
 
     @Override
-    public List<Integer> cloneIds(List<Integer> originalIds) {
-        return null;
+    public List<Integer> cloneIds(List<Integer> originalIds) throws NoSuchElementException{
+        if (originalIds == null){
+            throw new NoSuchElementException();
+        }
+        List<Integer> res = new ArrayList<>();
+        for (Integer i : originalIds) {
+            if (i != null) {
+                res.add(i);
+            }
+        }
+        return res;
     }
 
     @Override
@@ -121,23 +167,33 @@ public class ListTasksImpl implements ListTasks {
 
     @Override
     public String getLastElement(LinkedList<String> list) throws NoSuchElementException {
-        if(list == null){
+        if (list == null) {
             throw new NoSuchElementException();
         }
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return "";
         }
-        if(list.getLast()==null){
+        if (list.getLast() == null) {
             throw new NoSuchElementException();
-        }
-        else {
+        } else {
             return list.getLast();
         }
 
     }
 
     @Override
-    public List<String> compareElements(LinkedList<String> originalCollection, LinkedList<String> additionalCollection) {
-        return null;
+    public List<String> compareElements(LinkedList<String> originalCollection, LinkedList<String> additionalCollection) throws IllegalArgumentException {
+        if (originalCollection == null || additionalCollection == null) {
+            throw new IllegalArgumentException();
+        }
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < originalCollection.size(); i++) {
+            for (int j = 0; j < additionalCollection.size(); j++) {
+                if (originalCollection.get(i).equals(additionalCollection.get(j))) {
+                    res.add(originalCollection.get(i));
+                }
+            }
+        }
+        return res;
     }
 }

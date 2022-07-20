@@ -1,8 +1,6 @@
 package com.knubisoft.base.string;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class StringTasksImpl implements StringTasks {
 
@@ -142,8 +140,37 @@ public class StringTasksImpl implements StringTasks {
     }
 
     @Override
-    public String toCamelCase(String str) {
-        return null;
+    public String toCamelCase(String str) throws IllegalArgumentException {
+        if (str == null || str.length() == 0) {
+            throw new IllegalArgumentException();
+        }
+        String[] arr;
+        if (str.contains("-")) {
+            arr = str.split("-");
+        } else if (str.contains("_")) {
+            arr = str.split("_");
+        } else {
+            arr = str.split(" ");
+        }
+
+        String res = "";
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].charAt(0) == arr[i].toLowerCase().charAt(0)) {
+                if (i == 0) {
+                    res += arr[i];
+                } else {
+                    res += arr[i].substring(0, 1).toUpperCase() + arr[i].substring(1);
+                }
+            } else {
+                if (arr[i].charAt(0) == arr[i].toUpperCase().charAt(0) && i == 0) {
+                    res += arr[i].toLowerCase();
+                } else {
+                    res += arr[i];
+                }
+            }
+        }
+        System.out.println(res);
+        return res;
     }
 
     @Override
@@ -152,7 +179,22 @@ public class StringTasksImpl implements StringTasks {
     }
 
     @Override
-    public String sortStringCharactersAsc(String str) {
-        return null;
+    public String sortStringCharactersAsc(String str) throws IllegalArgumentException {
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
+        String res = "";
+        char[] arr = str.toCharArray();
+        List<Character> list = new ArrayList<>();
+        for (Character c : arr) {
+            list.add(c);
+
+        }
+        Collections.sort(list);
+        for (Character c : list) {
+            res += c;
+        }
+        System.out.println(res);
+        return res;
     }
 }
