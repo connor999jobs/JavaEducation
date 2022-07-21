@@ -175,7 +175,24 @@ public class StringTasksImpl implements StringTasks {
 
     @Override
     public String getCountRepeatableString(String str) {
-        return null;
+        if (str == null) {
+            throw new IllegalArgumentException();
+        }
+        StringBuilder builder = new StringBuilder();
+        int len = str.length();
+        for (int i = 0; i < len; i++) {
+            int find = 0;
+            for (int j = i; j < len; j++) {
+                if (str.charAt(i) == str.charAt(j)) {
+                    find++;
+                    if (find > 9) {
+                        find = 1;
+                    }
+                    builder.append(find);
+                }
+            }
+        }
+        return builder.toString();
     }
 
     @Override
