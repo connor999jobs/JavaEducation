@@ -58,7 +58,7 @@ class DateTasksTest {
     }
 
     @Test
-    void sumTimes() {
+    void sumTimes() throws ParseException {
         assertEquals("10:30:00", dateTasks.sumTimes("07:00:00", "03:30:00"));
         assertEquals("00:00:00", dateTasks.sumTimes("23:59:59", "00:00:01"));
         assertEquals("12:56:57", dateTasks.sumTimes("10:55:45", "02:01:12"));
@@ -77,7 +77,7 @@ class DateTasksTest {
     }
 
     @Test
-    void getNumberOfDaysBetweenTwoDates() {
+    void getNumberOfDaysBetweenTwoDates() throws ParseException {
         assertEquals(3652, dateTasks.getNumberOfDaysBetweenTwoDates("2012-09-21","2022-09-21"));
         assertEquals(0, dateTasks.getNumberOfDaysBetweenTwoDates("2022-09-21","2022-09-21"));
         assertEquals(38, dateTasks.getNumberOfDaysBetweenTwoDates("2021-11-23","2021-12-31"));

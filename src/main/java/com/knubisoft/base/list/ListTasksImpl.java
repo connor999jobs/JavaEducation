@@ -115,8 +115,40 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public int multiplyMax2Elements(List<Integer> first, List<Integer> second, List<Integer> third) {
-        return -1;
+    public int multiplyMax2Elements(List<Integer> first, List<Integer> second, List<Integer> third) throws RuntimeException {
+        if (first == null || second == null || third == null) {
+            throw new RuntimeException();
+        }
+        List<Integer> list = new ArrayList<>();
+        list.addAll(first);
+        list.addAll(second);
+        list.addAll(third);
+        int[] res = new int[2];
+        int max = Integer.MIN_VALUE;
+        int count = 0;
+        while (count != 2) {
+            for (int i = 0, j = count; i < list.size(); i++) {
+                if (list.get(i) >= max) {
+                    if (j != 0 && res[j - 1] >= list.get(i)) {
+                        max = list.get(i);
+                    }
+                    if (j == 0) {
+                        max = list.get(i);
+                    }
+                }
+                res[j] = max;
+            }
+            max = Integer.MIN_VALUE;
+            count++;
+        }
+        int sum = 1;
+        for (int i : res) {
+            if (i >= Integer.MAX_VALUE) {
+                return 1;
+            }
+            sum *= i;
+        }
+        return sum;
     }
 
     @Override
@@ -147,8 +179,8 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public List<Integer> cloneIds(List<Integer> originalIds) throws NoSuchElementException{
-        if (originalIds == null){
+    public List<Integer> cloneIds(List<Integer> originalIds) throws NoSuchElementException {
+        if (originalIds == null) {
             throw new NoSuchElementException();
         }
         List<Integer> res = new ArrayList<>();
@@ -161,8 +193,13 @@ public class ListTasksImpl implements ListTasks {
     }
 
     @Override
-    public List<String> shuffle(List<String> originalStrings) {
-        return null;
+    public List<String> shuffle(List<String> originalStrings) throws RuntimeException {
+        if (originalStrings == null) {
+            throw new RuntimeException();
+        }
+        LinkedList<String> res = new LinkedList<>(originalStrings);
+        Collections.shuffle(res);
+        return res;
     }
 
     @Override

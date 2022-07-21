@@ -122,7 +122,7 @@ public interface DateTasks {
      * @param date2 Second random date in string format.
      * @return
      */
-    long getNumberOfDaysBetweenTwoDates(String date1, String date2);
+    long getNumberOfDaysBetweenTwoDates(String date1, String date2) throws ParseException;
 
     /**
      * Given an input string containing random date in [year-month-day] format, your task is to parse the input string

@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -35,7 +37,7 @@ public class DateTasksImpl implements DateTasks {
         res.add(second);
         res.add(third);
         Collections.sort(res);
-        LocalDateTime date = res.get(res.size()-1);
+        LocalDateTime date = res.get(res.size() - 1);
         String s = String.valueOf(date);
         s = s.replace("T", " ");
         return s;
@@ -50,19 +52,28 @@ public class DateTasksImpl implements DateTasks {
 
     @Override
     public String sumTimes(String time1, String time2) throws ParseException {
-        Date format1 = new SimpleDateFormat("HH:mm:ss").parse(time1);
-        Date format2 = new SimpleDateFormat("HH:mm:ss").parse(time2);
-        return null;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime localTime1 = LocalTime.parse(time1, DateTimeFormatter.ofPattern("HH:mm:ss"));
+        LocalTime localTime2 = LocalTime.parse(time2, DateTimeFormatter.ofPattern("HH:mm:ss"));
+        return localTime1.plusHours(localTime2.getHour())
+                .plusMinutes(localTime2.getMinute())
+                .plusSeconds(localTime2.getSecond())
+                .format(dateTimeFormatter);
     }
 
     @Override
     public String getDateAfter2Weeks(String date) {
-        return null;
+        LocalDate d = LocalDate.parse(date);
+        d = d.plusWeeks(2);
+        return String.valueOf(d);
     }
 
     @Override
-    public long getNumberOfDaysBetweenTwoDates(String date1, String date2) {
-        return -1;
+    public long getNumberOfDaysBetweenTwoDates(String date1, String date2) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date d1 = simpleDateFormat.parse(date1);
+        Date d2 = simpleDateFormat.parse(date2);
+        return ((d2.getTime() - d1.getTime()) / (24 * 60 * 60 * 1000));
     }
 
     @Override
