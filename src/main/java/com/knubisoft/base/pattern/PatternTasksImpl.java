@@ -1,20 +1,43 @@
 package com.knubisoft.base.pattern;
 
+import java.util.regex.Pattern;
+
 public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public boolean haveSetOfCharacters(String text) {
-        return false;
+        if (text == null || text.length() == 0 || text.equals(" ")) {
+            throw new IllegalArgumentException();
+        }
+        Pattern p = Pattern.compile("^[a-zA-Z0-9]*$");
+        return p.matcher(text).find();
     }
 
     @Override
     public String matchByCharacters(String text) {
-        return null;
+        if (text == null) {
+            throw new IllegalArgumentException();
+        }
+        String res = "";
+        Pattern p = Pattern.compile("^pq*$");
+        if (p.matcher(text).find()) {
+            res = "Found a match!";
+        } else {
+            res = "Not matched!";
+        }
+        return res;
     }
 
     @Override
     public String matchStartAndEnd(String text) {
-        return null;
+        Pattern p = Pattern.compile("^[^g].*$[^g]");
+        String res = "";
+        if (p.matcher(text).find()) {
+            res = "Found a match!";
+        } else {
+            res = "Not matched!";
+        }
+        return res;
     }
 
     @Override

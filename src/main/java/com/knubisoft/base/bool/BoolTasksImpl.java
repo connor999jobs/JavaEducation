@@ -41,17 +41,29 @@ public class BoolTasksImpl implements BoolTasks {
 
     @Override
     public boolean orFunction(int digit, String string) {
-        return false;
+        if (string == null || string.contains(" ")) return false;
+        int s;
+        try {
+            s = Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        int res = digit | s;
+        System.out.println(res);
+        return digit == res;
     }
 
     @Override
     public boolean andComplexFunction(int generatedFirstDigit, double generatedSecondDigit, int range) {
-        return false;
+        double res = Math.round(generatedSecondDigit) & range;
+        return res == generatedFirstDigit;
     }
 
     @Override
-    public boolean orComplexFunction(int generatedFirstDigit, double generatedSecondDigit, int generatedThirdDigit, int range) {
-        return false;
+    public boolean orComplexFunction(int generatedFirstDigit, double generatedSecondDigit, double generatedThirdDigit, int range) {
+        double res1 = Math.round(generatedSecondDigit) | generatedFirstDigit;
+        double res2 = Math.round(generatedThirdDigit) | generatedFirstDigit;
+        return  ((res1) < (range) && (range) < res2) || (res2 < range && range < res1);
     }
 
     @Override

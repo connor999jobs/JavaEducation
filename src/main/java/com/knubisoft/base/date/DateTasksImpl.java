@@ -2,6 +2,7 @@ package com.knubisoft.base.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -78,11 +79,16 @@ public class DateTasksImpl implements DateTasks {
 
     @Override
     public String[] getTheNextAndPreviousFriday(String date) {
-        return null;
+        String[] res = new String[2];
+        LocalDate ld = LocalDate.parse(date);
+        res[0] = ld.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).toString();
+        res[1] = ld.with(TemporalAdjusters.next(DayOfWeek.FRIDAY)).toString();
+        return res;
     }
 
     @Override
     public int getNumberOfMonthsRemainingInTheYear(String date) {
-        return -1;
+        LocalDate ld = LocalDate.parse(date);
+        return 12 - ld.getMonthValue();
     }
 }
