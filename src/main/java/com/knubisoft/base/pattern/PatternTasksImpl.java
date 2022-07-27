@@ -30,24 +30,38 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public String matchStartAndEnd(String text) {
-        Pattern p = Pattern.compile("^[^g].*$[^g]");
+        if (text == null) {
+            throw new IllegalArgumentException();
+        }
+        text = text.trim().replaceAll("\\.", "");
+        Pattern p = Pattern.compile("^[^g].*[^g]$");
+        Pattern p1 = Pattern.compile("g+");
+        String[] s = text.split(" ");
         String res = "";
-        if (p.matcher(text).find()) {
-            res = "Found a match!";
-        } else {
-            res = "Not matched!";
+        for (String str : s) {
+            if (p.matcher(str).find() && p1.matcher(str).find()) {
+                res = "Found a match!";
+            } else {
+                res = "Not matched!";
+            }
         }
         return res;
     }
 
     @Override
     public String matchIpAddress(String text) {
-        return null;
+        if (text == null || text.length() == 0 || text.equals(" ")) {
+            throw new IllegalArgumentException();
+        }
+        return text.replaceAll("(?<=^|\\.)0+(?!\\.|$)", "");
     }
 
     @Override
     public String matchVowels(String text) {
-        return null;
+        if (text == null || text.length() == 0 || text.equals(" ")) {
+            throw new IllegalArgumentException();
+        }
+        return text.replaceAll("[aeiouAEIOU]", "");
     }
 
     @Override
