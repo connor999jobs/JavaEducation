@@ -29,7 +29,7 @@ public interface Files {
      * @return true if the content of the files are equal or they both don't exist, false otherwise
      * @throws IllegalArgumentException when an input is not a file.
      * @throws IOException If an I/O error occurs.
-     * @see org.apache.commons.io.file.PathUtils#fileContentEquals(Path,Path,java.nio.file.LinkOption[],java.nio.file.OpenOption...)
+     * //@see org.apache.commons.io.file.PathUtils#fileContentEquals(Path,Path,java.nio.file.LinkOption[],java.nio.file.OpenOption...)
      */
     boolean contentEquals(final File file1, final File file2) throws IOException;
 

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * TODO fix model
  *
- * @see json and xml file
+ * @see /json and xml file
  */
 public class ModelRoot {
 

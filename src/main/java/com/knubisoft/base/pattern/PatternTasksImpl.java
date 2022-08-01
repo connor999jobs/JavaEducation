@@ -66,36 +66,82 @@ public class PatternTasksImpl implements PatternTasks {
 
     @Override
     public boolean validatePIN(String text) {
-        return false;
+        if (text == null || text.length() == 0 || text.equals(" ")) {
+            throw new IllegalArgumentException();
+        }
+        if (text.length() % 2 != 0) {
+            return false;
+        }
+        Pattern p = Pattern.compile("^\\d{4}|\\d{6}\\d{8}$");
+        return p.matcher(text).find();
     }
 
     @Override
     public String divideDigit(int digit) {
-        return null;
+        String text = String.valueOf(digit);
+        return text.replaceAll("[0]{3}$", "#000");
     }
 
     @Override
     public String removeAllNonAlphanumericCharacters(String text) {
-        return null;
+        if (text == null) {
+            throw new RuntimeException();
+        }
+        return text.replaceAll("[^a-zA-Z]", "");
     }
 
     @Override
     public boolean validatePhoneNumber(String text) {
-        return false;
+        if (text == null || text.length() == 0 || text.equals(" ")) {
+            throw new IllegalArgumentException();
+        }
+        if (text.matches("\\d{10}")) return true;
+        else if (text.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
+        else if (text.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
+        else if (text.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) return true;
+        else if (text.matches("\\(\\d{3}\\)\\d{3}\\d{4}")) return true;
+        else return text.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}");
     }
 
     @Override
     public String getLastVowelsByConstraint(String text, int n) {
-        return null;
+        if (text == null || text.length() == 0 || text.equals(" ") || n <= 0 | n > text.length()) {
+            throw new RuntimeException();
+        }
+        text = text.replaceAll("[^qeyuoia]","");
+        if (text.length() == n){
+            return text;
+        }
+        return text.substring(text.length()-n);
     }
 
     @Override
     public boolean isMathematicalExpression(String text) {
-        return false;
+        if (text == null || text.length() == 0 || text.equals(" ")) {
+            throw new IllegalArgumentException();
+        }
+        Pattern p = Pattern.compile("\\d{1}");
+        Pattern p1 = Pattern.compile("\\d{1}$");
+        Pattern p2 = Pattern.compile("[+*]{2}");
+        return p.matcher(text).find() && !p2.matcher(text).find() && p1.matcher(text).find();
     }
 
     @Override
     public String insertDash(String text) {
-        return null;
+        if (text==null){
+            throw new RuntimeException();
+        }
+        String[] arr = text.split(" ");
+        String res = "";
+        for (String s : arr) {
+            if (String.valueOf(s.charAt(0)).equals(String.valueOf(s.charAt(0)).toUpperCase())) {
+                res += s.replaceAll(String.valueOf(s.charAt(0)), s.charAt(0) + "-");
+                res += " ";
+            } else {
+                res += s;
+                res += " ";
+            }
+        }
+        return res.trim();
     }
 }

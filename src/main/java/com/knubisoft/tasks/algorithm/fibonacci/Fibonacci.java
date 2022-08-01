@@ -7,6 +7,7 @@ public interface Fibonacci {
      * Add checks for negative / 0 / big numbers
      *
      * @param n - number of elements for Fibonacci sequence to be generated
+     * @return
      */
     int generateNFibonacciSequence(int n);
 

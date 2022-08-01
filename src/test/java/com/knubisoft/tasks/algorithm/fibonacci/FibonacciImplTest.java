@@ -3,6 +3,7 @@ package com.knubisoft.tasks.algorithm.fibonacci;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
