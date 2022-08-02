@@ -1,6 +1,9 @@
 package com.knubisoft.base.queue.car;
 
-public class Car {
+import java.util.List;
+import java.util.PriorityQueue;
+
+public class Car extends CarComparator {
 
     private final String brand;
     private final double price;
@@ -17,4 +20,5 @@ public class Car {
     public double getPrice() {
         return price;
     }
+
 }
