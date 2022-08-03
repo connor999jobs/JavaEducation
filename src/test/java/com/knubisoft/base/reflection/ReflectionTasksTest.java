@@ -5,6 +5,7 @@ import com.knubisoft.base.reflection.model.InheritedEntryModel;
 import com.knubisoft.base.string.StringTasks;
 import com.knubisoft.base.string.StringTasksImpl;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -107,5 +108,14 @@ public class ReflectionTasksTest {
         assertThrows(IllegalArgumentException.class,
                 () -> instance.evaluateMethodWithArgsByName(new StringTasksImpl(),
                         "insertStringInMiddle", null));
+    }
+
+    @Test
+    public void changePrivateFieldValue(){
+        com.knubisoft.base.reflection.Test test = new com.knubisoft.base.reflection.Test();
+        Assertions.assertEquals("val", instance.changePrivateFieldValue(test, "x", "val"));
+        Assertions.assertEquals(1, instance.changePrivateFieldValue(test, "x", 1));
+        Assertions.assertEquals("vl", instance.changePrivateFieldValue(test, "x", "vl"));
+        Assertions.assertEquals(false, instance.changePrivateFieldValue(test, "x", false));
     }
 }

@@ -3,6 +3,7 @@ package com.knubisoft.base.reflection;
 import com.knubisoft.base.reflection.model.EntryModel;
 import com.knubisoft.base.reflection.model.InheritedEntryModel;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -14,12 +15,12 @@ public class ReflectionTasksImpl implements ReflectionTasks {
     @Override
     public Object createNewInstanceForClass(Class<?> cls) {
         try {
-            if (cls == null){
+            if (cls == null) {
                 throw new NoSuchElementException();
             }
             cls = Class.forName(cls.getName());
             boolean b = cls.getPackageName().equals("com.knubisoft.base.reflection");
-            if (b){
+            if (b) {
                 throw new IllegalArgumentException();
             }
         } catch (ClassNotFoundException e) {
@@ -34,14 +35,14 @@ public class ReflectionTasksImpl implements ReflectionTasks {
         try {
             cls = Class.forName(cls.getName());
             Class[] params = {String.class, String.class};
-            return InheritedEntryModel.class.getConstructor(params).newInstance("i","j");
+            return InheritedEntryModel.class.getConstructor(params).newInstance("i", "j");
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             cls = Class.forName(cls.getName());
             Class[] params = {String.class, String.class, String.class};
-            return InheritedEntryModel.class.getConstructor(params).newInstance("i","j","k");
+            return InheritedEntryModel.class.getConstructor(params).newInstance("i", "j", "k");
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -50,19 +51,19 @@ public class ReflectionTasksImpl implements ReflectionTasks {
     @Override
     public <T> Class<? extends T> findImplementationForInterface(Class<T> cls) {
         try {
-            if (cls == null){
+            if (cls == null) {
                 throw new NoSuchElementException();
             }
             cls = (Class<T>) Class.forName(cls.getName());
             boolean b = cls.getPackageName().equals("com.knubisoft.base.reflection");
-            if (b){
+            if (b) {
                 throw new IllegalArgumentException();
             }
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException();
         }
         Class[] c = InheritedEntryModel.class.getDeclaredClasses();
-        if (c.length==0){
+        if (c.length == 0) {
             return (Class<? extends T>) InheritedEntryModel.class;
         }
         return c[0];
@@ -75,13 +76,13 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public int countPrivateMethodsInClass(Class<?> cls) {
-        if (cls == null){
+        if (cls == null) {
             throw new NoSuchElementException();
         }
         Method[] methods = cls.getDeclaredMethods();
         int count = 0;
-        for (Method m : methods){
-            if (Modifier.isPrivate(m.getModifiers())){
+        for (Method m : methods) {
+            if (Modifier.isPrivate(m.getModifiers())) {
                 count++;
             }
         }
@@ -105,6 +106,16 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object changePrivateFieldValue(Object instance, String name, Object newValue) {
-        return null;
+        Field field;
+        try {
+            field = instance.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+            field.set(instance, newValue);
+            Object x = (Object) field.get(instance);
+            return x;
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
     }
 }
