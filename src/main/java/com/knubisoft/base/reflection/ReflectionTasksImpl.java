@@ -2,7 +2,9 @@ package com.knubisoft.base.reflection;
 
 import com.knubisoft.base.reflection.model.EntryModel;
 import com.knubisoft.base.reflection.model.InheritedEntryModel;
+import lombok.SneakyThrows;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -123,12 +125,27 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object evaluateMethodByName(Class<?> cls, String name) {
-        return null;
+        Method method = null;
+        try {
+            method = cls.getDeclaredMethod(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assert method != null;
+        return method.getReturnType();
     }
 
     @Override
     public Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) {
-        return null;
+        // obj.getClass().getDeclaredMethod(name, ???)
+        try {
+            if (args.length > 1){
+                return obj.getClass().getDeclaredMethod(name, String.class, String.class).invoke(obj, args);
+            }
+            return obj.getClass().getDeclaredMethod(name, String.class).invoke(obj, args);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override

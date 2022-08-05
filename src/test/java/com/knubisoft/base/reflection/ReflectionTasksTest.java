@@ -1,5 +1,6 @@
 package com.knubisoft.base.reflection;
 
+import com.knubisoft.base.numbers.NumbersTasksImpl;
 import com.knubisoft.base.reflection.model.EntryModel;
 import com.knubisoft.base.reflection.model.InheritedEntryModel;
 import com.knubisoft.base.string.StringTasks;
@@ -85,6 +86,29 @@ public class ReflectionTasksTest {
     @SneakyThrows
     public void countPrivateMethodsInClassFail() {
         assertThrows(NoSuchElementException.class, () -> instance.countPrivateMethodsInClass(null));
+    }
+
+    @Test
+    public void isMethodHasAnnotation() {
+        InheritedEntryModel inheritedEntryModel = new InheritedEntryModel("1");
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName("com.knubisoft.base.reflection.model.InheritedEntryModel");
+            Assertions.assertTrue(instance.isMethodHasAnnotation(clazz.getMethod("builder"), instance.createNewInstanceForClass(clazz).getClass()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void evaluateMethodByNameSuccessful() {
+        assertEquals(int.class,
+                instance.evaluateMethodByName(com.knubisoft.base.reflection.model.Test.class, "test1"));
+        assertEquals(String.class,
+                instance.evaluateMethodByName(com.knubisoft.base.reflection.model.Test.class, "test2"));
+        assertEquals(boolean.class,
+                instance.evaluateMethodByName(com.knubisoft.base.reflection.model.Test.class, "test3"));
     }
 
     @Test

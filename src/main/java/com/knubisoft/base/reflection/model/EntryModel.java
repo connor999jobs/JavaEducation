@@ -1,5 +1,7 @@
 package com.knubisoft.base.reflection.model;
 
+import lombok.SneakyThrows;
+
 public abstract class EntryModel {
     private String tableName;
     private String schemaName;

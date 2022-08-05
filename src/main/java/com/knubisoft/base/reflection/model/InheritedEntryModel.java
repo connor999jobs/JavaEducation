@@ -1,5 +1,7 @@
 package com.knubisoft.base.reflection.model;
 
+import lombok.SneakyThrows;
+
 public class InheritedEntryModel extends EntryModel {
 
     public InheritedEntryModel(String tableName) {
