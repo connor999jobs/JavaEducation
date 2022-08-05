@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -71,7 +72,33 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Map<String, Object> findAllFieldsForClass(Class<?> cls) {
-        return null;
+        if(cls == null){
+            throw new NoSuchElementException();
+        }
+        HashMap<String, Object> res = new HashMap<>();
+        Object obj = null;
+        try {
+            cls = Class.forName(cls.getName());
+            if(cls.isInterface()){
+                return res;
+            }
+            obj = cls.getDeclaredConstructor(String.class, String.class, String.class).newInstance("1", "2", "3");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Field[] fields = cls.getSuperclass().getDeclaredFields();
+        for (Field f : fields) {
+            Field field = null;
+            try {
+                field = EntryModel.class.getDeclaredField(f.getName());
+                field.setAccessible(true);
+                Object str = field.get(obj);
+                res.put(f.getName(), str);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
     }
 
     @Override
