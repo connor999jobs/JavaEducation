@@ -1,11 +1,9 @@
 package com.knubisoft.tasks.algorithm.collection;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Files;
+import java.util.*;
 
-public class UtilsImpl implements Utils{
+public class UtilsImpl implements Utils {
     @Override
     public <K, V> Map<V, K> invertMap(Map<K, V> map) {
         return null;
@@ -13,12 +11,25 @@ public class UtilsImpl implements Utils{
 
     @Override
     public <E> List<E> union(List<? extends E> list1, List<? extends E> list2) {
-        return null;
+        List<E> list = new ArrayList<>();
+        list.addAll(list1);
+        list.addAll(list2);
+        return list;
     }
 
     @Override
     public boolean isEqualList(Collection<?> list1, Collection<?> list2) {
-        return false;
+        if (list1.size() != list2.size()) {
+            return false;
+        }
+        ArrayList<Object> arrayList1 = new ArrayList<>(list1);
+        ArrayList<Object> arrayList2 = new ArrayList<>(list2);
+        for (int i = 0; i < arrayList1.size(); i++) {
+            if (!arrayList1.get(i).equals(arrayList2.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
