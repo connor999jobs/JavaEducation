@@ -74,14 +74,14 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Map<String, Object> findAllFieldsForClass(Class<?> cls) {
-        if(cls == null){
+        if (cls == null) {
             throw new NoSuchElementException();
         }
         HashMap<String, Object> res = new HashMap<>();
         Object obj = null;
         try {
             cls = Class.forName(cls.getName());
-            if(cls.isInterface()){
+            if (cls.isInterface()) {
                 return res;
             }
             obj = cls.getDeclaredConstructor(String.class, String.class, String.class).newInstance("1", "2", "3");
@@ -120,7 +120,14 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public boolean isMethodHasAnnotation(Method method, Class<?> annotationUnderMethod) {
-        return false;
+        Method[] methods = annotationUnderMethod.getMethods();
+        for (Method m : methods) {
+            if (m.getName().equals(method.getName())) {
+                Annotation[] annotations = method.getAnnotations();
+                return annotations.length > 0;
+            }
+        }
+        throw new RuntimeException();
     }
 
     @Override
@@ -138,8 +145,11 @@ public class ReflectionTasksImpl implements ReflectionTasks {
     @Override
     public Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) {
         // obj.getClass().getDeclaredMethod(name, ???)
+        if (obj == null || name == null || args == null) {
+            throw new IllegalArgumentException();
+        }
         try {
-            if (args.length > 1){
+            if (args.length > 1) {
                 return obj.getClass().getDeclaredMethod(name, String.class, String.class).invoke(obj, args);
             }
             return obj.getClass().getDeclaredMethod(name, String.class).invoke(obj, args);

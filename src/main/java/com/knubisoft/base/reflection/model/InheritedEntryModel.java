@@ -17,6 +17,7 @@ public class InheritedEntryModel extends EntryModel {
     }
 
     @Override
+    @Deprecated
     public EntryModel builder() {
         return super.builder();
     }
