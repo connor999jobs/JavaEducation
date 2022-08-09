@@ -92,7 +92,6 @@ public class CSVOrm {
         return type;
     }
 
-
     private static Map<Integer, String> buildMapping(String firstLine) {
         Map<Integer, String> map = new LinkedHashMap<>();
         String[] array = splitLine(firstLine);
