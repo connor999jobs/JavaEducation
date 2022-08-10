@@ -28,16 +28,7 @@ public class CSVOrm {
     public static final String COMMENT = "--";
 
     public static <T> List<T> transform(File file, Class<T> cls) throws IOException {
-        FileContentTypeEnum type;
-        if (file.getName().endsWith(".csv")){
-            type = FileContentTypeEnum.CSV;
-        }else if (file.getName().endsWith(".json")){
-            type = FileContentTypeEnum.JSON;
-        }else if (file.getName().endsWith(".xml")){
-            type = FileContentTypeEnum.XML;
-        }else {
-            throw new IllegalArgumentException();
-        }
+        FileContentTypeEnum type = getFileContentTypeEnum(file);
         Path pathDir = FileSystems.getDefault().getPath("").toAbsolutePath();
         String path = (pathDir + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + file.getName());
         if (type.equals(FileContentTypeEnum.CSV)) {
@@ -49,45 +40,56 @@ public class CSVOrm {
                     .collect(Collectors.toList());
         } else if (type.equals(FileContentTypeEnum.JSON)) {
 
-            String json = readToString(pathDir + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + file.getName());
+            String json = readToString(path);
             List<Object> list = jsonToList(json, cls);
             return (List<T>) list;
 
-        }else if(type.equals(FileContentTypeEnum.XML)) {
+        } else if (type.equals(FileContentTypeEnum.XML)) {
             String xml = readToString(path);
-            xml = xml.replaceAll("</record>", "<record>");
-            String[] arr = xml.split("<record>");
-            List<Object> result = new ArrayList<>();
-            for (int i = 1; i< arr.length; i +=2){
-                result.add(xmlToType(arr[i],cls));
-            }
-            return (List<T>) result;
+            return xmlList(cls, xml);
         }
 
         throw new IllegalArgumentException();
     }
 
-    private static <T> T xmlToType(String line, Class<T> cls) {
-        Map map = new LinkedHashMap();
-        String[] str = line.split("><");
-        T type = null;
-        try {
-            type = cls.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static <T> List<T> xmlList(Class<T> cls, String xml) {
+        xml = xml.replaceAll("</record>", "<record>");
+        String[] arr = xml.split("<record>");
+        List<Object> result = new ArrayList<>();
+        for (int i = 1; i < arr.length; i += 2) {
+            result.add(xmlToType(arr[i], cls));
         }
+        return (List<T>) result;
+    }
+
+    private static FileContentTypeEnum getFileContentTypeEnum(File file) {
+        FileContentTypeEnum type;
+        if (file.getName().endsWith(".csv")) {
+            type = FileContentTypeEnum.CSV;
+        } else if (file.getName().endsWith(".json")) {
+            type = FileContentTypeEnum.JSON;
+        } else if (file.getName().endsWith(".xml")) {
+            type = FileContentTypeEnum.XML;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        return type;
+    }
+
+    @SneakyThrows
+    private static <T> T xmlToType(String line, Class<T> cls) {
+        String[] str = line.split("><");
+        T type = cls.getDeclaredConstructor().newInstance();
+
         for (String s : str) {
             if (s.startsWith("<")) {
                 s = s.replaceFirst("<", "");
-            }
-            if (s.endsWith(">")) {
-                s = s.substring(0, s.length());
             }
             int find1 = s.indexOf(">");
             int find2 = s.substring(find1).indexOf("<");
             String value = s.substring(find1 + 1, find2 + find1);
             String field = s.substring(0, find1);
-            setValueIntoFieldOrThrow(value.trim(),field.trim(),type);
+            setValueIntoFieldOrThrow(value.trim(), field.trim(), type);
         }
         return type;
     }
@@ -116,28 +118,24 @@ public class CSVOrm {
         return result;
     }
 
+    @SneakyThrows
     private static <T> T setIntoFieldForJson(Map map, Class<T> cls) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-        T type = null;
-        try {
-            String s = map.toString();
-            type = cls.getDeclaredConstructor().newInstance();
-            s = s.replaceAll("\\{", "");
-            s = s.replaceAll("\\}", "");
-            String[] str = splitLine(s);
-            for (int i = 0; i < str.length; i++) {
-                int index = str[i].indexOf("=");
-                String fieldName = str[i].substring(0, index);
-                String value = str[i].substring(index + 1);
-                int dot = value.indexOf(".");
-                if (value.contains(".")) {
-                    value = value.substring(0, dot);
-                }
-                setValueIntoFieldOrThrow(value.trim(), fieldName.trim(), type);
+        String s = map.toString();
+        T type = cls.getDeclaredConstructor().newInstance();
+        s = s.replaceAll("\\{", "");
+        s = s.replaceAll("\\}", "");
+        String[] str = splitLine(s);
+        for (String item : str) {
+            int index = item.indexOf("=");
+            String fieldName = item.substring(0, index);
+            String value = item.substring(index + 1);
+            int dot = value.indexOf(".");
+            if (value.contains(".")) {
+                value = value.substring(0, dot);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            setValueIntoFieldOrThrow(value.trim(), fieldName.trim(), type);
         }
         return type;
     }
