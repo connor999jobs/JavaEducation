@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -144,17 +145,16 @@ public class ReflectionTasksImpl implements ReflectionTasks {
 
     @Override
     public Object evaluateMethodWithArgsByName(Object obj, String name, Object... args) {
-        // obj.getClass().getDeclaredMethod(name, ???)
         if (obj == null || name == null || args == null) {
             throw new IllegalArgumentException();
         }
         try {
-            if (args.length > 1) {
-                return obj.getClass().getDeclaredMethod(name, String.class, String.class).invoke(obj, args);
-            }
-            return obj.getClass().getDeclaredMethod(name, String.class).invoke(obj, args);
-        } catch (Exception e) {
-            throw new RuntimeException();
+            Class<?> aClass = obj.getClass();
+            Class<?>[] classes = Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
+            Method method = aClass.getMethod(name, classes);
+            return method.invoke(obj, args);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 

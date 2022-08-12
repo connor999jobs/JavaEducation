@@ -90,8 +90,9 @@ public class QueueTasksImpl implements QueueTasks {
 
     @Override
     public PriorityQueue<Car> implementPriorityQueueThroughComparator(List<Car> cars) {
-        CarComparator carComparator = new CarComparator();
-        return null;
+        PriorityQueue<Car> priorityQueue = new PriorityQueue<>(cars.size(), new CarComparator());
+        priorityQueue.addAll(cars);
+        return priorityQueue;
     }
 
 }
