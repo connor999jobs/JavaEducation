@@ -1,4 +1,5 @@
 package com.knubisoft.tasks.algorithm.collection;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,9 +9,11 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
 public class FilesImplTest {
+    FilesImpl files = new FilesImpl();
+
     @Test
-    public void contentEquals(){
-        FilesImpl files = new FilesImpl();
+    public void contentEquals() {
+
         Path pathDir = FileSystems.getDefault().getPath("").toAbsolutePath();
         String filename1 = "src/test/java/com/knubisoft/tasks/algorithm/collection/test1.txt";
         String filename2 = "src/test/java/com/knubisoft/tasks/algorithm/collection/test2.txt";
@@ -27,5 +30,27 @@ public class FilesImplTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void copyDirectoryToDirectory() {
+
+    }
+
+    @Test
+    public void toByteArray() {
+
+    }
+
+    @Test
+    public void readLines(){
+
+    }
+
+    @Test
+    public void isEmptyDirectory(){
+        Path pathDir = FileSystems.getDefault().getPath("").toAbsolutePath();
+        String filename1 = "src/test/java/com/knubisoft/tasks/algorithm/collection";
+        Assertions.assertFalse(files.isEmptyDirectory(new File(filename1)));
     }
 }
